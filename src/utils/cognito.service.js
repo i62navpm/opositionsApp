@@ -1,13 +1,23 @@
 const debug = require('debug')('utils:cognitoSDK')
 const config = require('@/../config/config.js')
+const AWS = require('aws-sdk')
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js')
 
 export default class AWSCognitoSDK {
   constructor() {
     debug('Init AWSCognitoSDK')
+
+    this.initConfig()
     this.createUserPool()
-    console.log(this.userPool)
+
     return this.userPool
+  }
+
+  initConfig() {
+    AWS.Config.region = config.region
+    AWS.Config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: config.IdentityPoolId
+    })
   }
 
   createUserPool() {
