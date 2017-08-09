@@ -8,6 +8,7 @@ import router from './router'
 import store from './store'
 
 sync(store, router)
+
 Vue.config.productionTip = false
 
 Vue.use(Vuex)
@@ -16,6 +17,7 @@ Vue.use(Vuex)
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

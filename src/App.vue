@@ -11,8 +11,18 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
-  name: 'app'
+  name: 'app',
+  methods: {
+    ...mapActions({
+      initCognito: 'auth/INIT_COGNITO'
+    })
+  },
+  created: function () {
+    this.initCognito()
+  }
 }
 </script>
 
