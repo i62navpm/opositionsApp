@@ -44,8 +44,8 @@ export default {
     LOGIN_USER: ({ commit, state }, { email, password }) => {
       state.congitoSDK.loginUser({ username: state.user, email, password }, {
         onSuccess: (result) => {
-          console.log('access token + ' + result.getAccessToken().getJwtToken())
-          console.log(result)
+          debug('access token + ' + result.getAccessToken().getJwtToken())
+          debug(result)
           router.push({name: 'hello'})
           debug('User logged correctly')
         },
