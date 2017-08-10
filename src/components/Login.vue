@@ -7,15 +7,15 @@
       label Password
       input.input(type='password' placeholder='Enter a password' v-model="password")
     div
-      button(@click.prevent="sendRegister") Sign up
+      button(@click.prevent="sendLogin") Sign in
 </template>
 
 <script>
-const debug = require('debug')('register')
+const debug = require('debug')('login')
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'register',
+  name: 'login',
   data() {
     return {
       email: '',
@@ -24,11 +24,11 @@ export default {
   },
   methods: {
     ...mapActions({
-      registerUser: 'auth/REGISTER_USER'
+      loginUser: 'auth/LOGIN_USER'
     }),
-    sendRegister() {
-      debug('Sending register form')
-      this.registerUser({email: this.email.trim(), password: this.password.trim()})
+    sendLogin() {
+      debug('Sending login form')
+      this.loginUser({email: this.email.trim(), password: this.password.trim()})
     }
   }
 }
