@@ -8,6 +8,8 @@
       input.input(type='password' placeholder='Enter a password' v-model="password")
     div
       button(@click.prevent="sendLogin") Sign in
+    div
+      router-link(:to="'forgotPassword'") Forgot the password?
 </template>
 
 <script>
@@ -26,9 +28,10 @@ export default {
     ...mapActions({
       loginUser: 'auth/LOGIN_USER'
     }),
-    sendLogin() {
+    async sendLogin() {
       debug('Sending login form')
-      this.loginUser({email: this.email.trim(), password: this.password.trim()})
+      await this.loginUser({email: this.email.trim(), password: this.password.trim()})
+      this.$router.push({ name: 'hello' })
     }
   }
 }

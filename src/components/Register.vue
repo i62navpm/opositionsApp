@@ -26,9 +26,10 @@ export default {
     ...mapActions({
       registerUser: 'auth/REGISTER_USER'
     }),
-    sendRegister() {
+    async sendRegister() {
       debug('Sending register form')
-      this.registerUser({email: this.email.trim(), password: this.password.trim()})
+      let userConfirmed = await this.registerUser({email: this.email.trim(), password: this.password.trim()})
+      !userConfirmed && this.$router.push({ name: 'verification' })
     }
   }
 }

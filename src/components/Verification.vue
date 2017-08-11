@@ -22,9 +22,10 @@ export default {
     ...mapActions({
       verificationCode: 'auth/VERIFICATE_CODE'
     }),
-    sendCode() {
+    async sendCode() {
       debug('Sending verification form')
-      this.verificationCode(this.code.trim())
+      let userVerificated = await this.verificationCode(this.code.trim())
+      !userVerificated && this.$router.push({ name: 'login' })
     }
   }
 }
