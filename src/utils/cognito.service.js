@@ -52,5 +52,15 @@ export default class AWSCognitoSDK extends AWSSDK {
     }
     return new AmazonCognitoIdentity.CognitoUser(userData)
   }
+
+  forgotPassword(email, { onSuccess, onFailure }) {
+    this.cognitoUser = this.getCognitoUser(email)
+    return this.cognitoUser.forgotPassword({ onSuccess, onFailure })
+  }
+
+  confirmPassword({username, code, password}, { onSuccess, onFailure }) {
+    this.cognitoUser = this.cognitoUser || this.getCognitoUser(username)
+    return this.cognitoUser.confirmPassword(code, password, { onSuccess, onFailure })
+  }
 }
 

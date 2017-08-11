@@ -1,7 +1,6 @@
 var debug = require('debug')('auth')
 
 import AWSCognitoSDK from '@/utils/cognito.service.js'
-import router from '@/router'
 
 export default {
   namespaced: true,
@@ -19,37 +18,76 @@ export default {
   actions: {
     INIT_COGNITO: ({ commit }) => commit('SET_COGNITO', new AWSCognitoSDK()),
     REGISTER_USER: ({ commit, state }, { email, password }) => {
-      state.congitoSDK.registerUser({ email, password }, (err, result) => {
-        if (err) {
-          debug('Error:', err)
-          return
-        }
+      return new Promise((resolve, reject) => {
+        state.congitoSDK.registerUser({ email, password }, (err, result) => {
+          if (err) {
+            debug('Error:', err)
+            reject(err)
+            return
+          }
 
-        commit('SET_USER', result.user.username)
-        !result.userConfirmed && router.push({name: 'verification'})
-        debug('User registered correctly')
+          debug('User registered correctly')
+          commit('SET_USER', result.user.username)
+          resolve(result.userConfirmed)
+        })
       })
     },
-    VERIFICATE_CODE: ({ commit, state }, code) => {
-      state.congitoSDK.verificateCode({username: state.user, code}, (err, result) => {
-        if (err) {
-          debug('Error:', err)
-          return
-        }
+    VERIFICATE_CODE: ({ state }, code) => {
+      return new Promise((resolve, reject) => {
+        state.congitoSDK.verificateCode({ username: state.user, code }, (err, result) => {
+          if (err) {
+            debug('Error:', err)
+            reject(err)
+            return
+          }
 
-        !result.userConfirmed && router.push({name: 'login'})
-        debug('User verified correctly')
+          debug('User verified correctly')
+          resolve(true)
+        })
       })
     },
-    LOGIN_USER: ({ commit, state }, { email, password }) => {
-      state.congitoSDK.loginUser({ username: state.user, email, password }, {
-        onSuccess: (result) => {
-          debug('access token + ' + result.getAccessToken().getJwtToken())
-          debug(result)
-          router.push({name: 'hello'})
-          debug('User logged correctly')
-        },
-        onFailure: (err) => debug('Error:', err)
+    LOGIN_USER: ({ state }, { email, password }) => {
+      return new Promise((resolve, reject) => {
+        state.congitoSDK.loginUser({ username: state.user, email, password }, {
+          onSuccess: (result) => {
+            debug('User logged correctly')
+            debug('access token + ' + result.getAccessToken().getJwtToken())
+
+            resolve(result)
+          },
+          onFailure: (err) => {
+            debug('Error:', err)
+            reject(err)
+          }
+        })
+      })
+    },
+    FORGOT_PASSWORD: ({ state }, email) => {
+      return new Promise((resolve, reject) => {
+        state.congitoSDK.forgotPassword(email, {
+          onSuccess: (result) => {
+            debug('Password reset correctly')
+            resolve(result)
+          },
+          onFailure: (err) => {
+            debug('Error:', err)
+            reject(err)
+          }
+        })
+      })
+    },
+    CONFIRM_PASSWORD: ({ state }, { code, password }) => {
+      return new Promise((resolve, reject) => {
+        state.congitoSDK.confirmPassword({ username: state.user, code, password }, {
+          onSuccess: (result) => {
+            debug('Password changed correctly')
+            resolve(result)
+          },
+          onFailure: (err) => {
+            debug('Error:', err)
+            reject(err)
+          }
+        })
       })
     }
   }
