@@ -1,6 +1,6 @@
 # oppositionsapp
 
-> PWA oppositions
+> PWA oppositions AWS[Cognito - Lambda - S3]
 
 ## Build Setup
 
