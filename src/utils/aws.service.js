@@ -12,7 +12,17 @@ export default class AWSSDK {
   initConfig() {
     AWS.Config.region = config.region
     AWS.Config.credentials = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: config.IdentityPoolId
+      IdentityPoolId: config.cognito.IdentityPoolId
+    })
+  }
+
+  setCredentials(token) {
+    AWS.config.region = config.region
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: config.cognito.IdentityPoolId,
+      Logins: {
+        [`cognito-idp.${config.region}.amazonaws.com/${config.cognito.UserPoolId}`]: token
+      }
     })
   }
 }

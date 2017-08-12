@@ -51,8 +51,7 @@ export default {
         state.congitoSDK.loginUser({ username: state.user, email, password }, {
           onSuccess: (result) => {
             debug('User logged correctly')
-            debug('access token + ' + result.getAccessToken().getJwtToken())
-
+            state.congitoSDK.setToken(result.getIdToken().jwtToken)
             resolve(result)
           },
           onFailure: (err) => {

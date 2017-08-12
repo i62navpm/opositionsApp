@@ -58,9 +58,13 @@ export default class AWSCognitoSDK extends AWSSDK {
     return this.cognitoUser.forgotPassword({ onSuccess, onFailure })
   }
 
-  confirmPassword({username, code, password}, { onSuccess, onFailure }) {
+  confirmPassword({ username, code, password }, { onSuccess, onFailure }) {
     this.cognitoUser = this.cognitoUser || this.getCognitoUser(username)
     return this.cognitoUser.confirmPassword(code, password, { onSuccess, onFailure })
+  }
+
+  setToken(token) {
+    this.setCredentials(token)
   }
 }
 
