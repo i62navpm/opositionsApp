@@ -37,7 +37,7 @@ export default class AWSCognitoSDK extends AWSSDK {
 
   verificateCode({ username, code }, callback) {
     debug('Verificating code', code)
-
+    debugger
     this.cognitoUser = this.cognitoUser || this.getCognitoUser(username)
     return this.cognitoUser.confirmRegistration(code, true, callback)
   }
@@ -50,7 +50,7 @@ export default class AWSCognitoSDK extends AWSSDK {
     }
     let authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData)
 
-    this.cognitoUser = this.cognitoUser || this.getCognitoUser(email)
+    this.cognitoUser = this.getCognitoUser(email)
     return this.cognitoUser.authenticateUser(authenticationDetails, { onSuccess, onFailure })
   }
 
