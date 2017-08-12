@@ -1,30 +1,26 @@
 <template lang="pug">
-v-card.grey.lighten-5(flat)
-  v-toolbar.primary.elevation-3(dark, extended)
-    v-toolbar-title Opposition APP
-  v-layout(row)
-    v-flex(xs12 sm10 offset-sm1 md6 offset-md3)
-      v-card.card--flex-toolbar
-        v-toolbar.white(card, prominent)
-          v-icon mood_bad
-          v-toolbar-title Forgot the password
-        v-divider
-        v-card-text
-          form(v-if="showPasswordForm" @keyup.enter="sendActivatePassword")
-            v-text-field(label="Code", v-model="code", required)
-            v-text-field(type="password" label="Password", hint="The length must be more than 8 characters", v-model="password" required)
-            v-layout(row justify-space-between)
-              small *indicates required field
-              v-btn(info :loading="loading"  @click.prevent="sendActivatePassword" :disabled="loading") Set password
-            v-alert(error dismissible transition="scale-transition" v-model="alert") {{error}}
-          form(v-else @keyup.enter="sendForgotPassword")
-            v-text-field(type="email" label="Email", v-model="email", required)
-            v-layout(row justify-space-between)
-              small *indicates required field
-              v-btn(info :loading="loading"  @click.prevent="sendForgotPassword" :disabled="loading") Forgot password
-            v-alert(error dismissible transition="scale-transition" v-model="alert") {{error}}
-            v-layout(row justify-space-between)
-              v-btn(small flat primary :to="'Login'") Have you an account?
+  v-flex(xs12 sm10 offset-sm1 md6 offset-md3)
+    v-card.card--flex-toolbar
+      v-toolbar.white(card, prominent)
+        v-icon mood_bad
+        v-toolbar-title Forgot the password
+      v-divider
+      v-card-text
+        form(v-if="showPasswordForm" @keyup.enter="sendActivatePassword")
+          v-text-field(label="Code", v-model="code", required)
+          v-text-field(type="password" label="Password", hint="The length must be more than 8 characters", v-model="password" required)
+          v-layout(row justify-space-between)
+            small *indicates required field
+            v-btn(info :loading="loading"  @click.prevent="sendActivatePassword" :disabled="loading") Set password
+          v-alert(error dismissible transition="scale-transition" v-model="alert") {{error}}
+        form(v-else @keyup.enter="sendForgotPassword")
+          v-text-field(type="email" label="Email", v-model="email", required)
+          v-layout(row justify-space-between)
+            small *indicates required field
+            v-btn(info :loading="loading"  @click.prevent="sendForgotPassword" :disabled="loading") Forgot password
+          v-alert(error dismissible transition="scale-transition" v-model="alert") {{error}}
+          v-layout(row justify-space-between)
+            v-btn(small flat primary :to="'Login'") Have you an account?
 
 </template>
 

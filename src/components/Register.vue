@@ -1,24 +1,20 @@
 <template lang="pug">
-v-card.grey.lighten-5(flat)
-  v-toolbar.primary.elevation-3(dark, extended)
-    v-toolbar-title Opposition APP
-  v-layout(row)
-    v-flex(xs12 sm10 offset-sm1 md6 offset-md3)
-      v-card.card--flex-toolbar
-        v-toolbar.white(card, prominent)
-          v-icon mood
-          v-toolbar-title Register
-        v-divider
-        v-card-text
-          form(@keyup.enter="sendRegister")
-            v-text-field(type="email" label="Email", v-model="email", required)
-            v-text-field(type="password" label="Password", hint="The length must be more than 8 characters", v-model="password" required)
-            v-layout(row justify-space-between)
-              small *indicates required field
-              v-btn(info :loading="loading"  @click.prevent="sendRegister" :disabled="loading") Sign up
-            v-alert(error dismissible transition="scale-transition" v-model="alert") {{error}}
+  v-flex(xs12 sm10 offset-sm1 md6 offset-md3)
+    v-card.card--flex-toolbar
+      v-toolbar.white(card, prominent)
+        v-icon mood
+        v-toolbar-title Register
+      v-divider
+      v-card-text
+        form(@keyup.enter="sendRegister")
+          v-text-field(type="email" label="Email", v-model="email", required)
+          v-text-field(type="password" label="Password", hint="The length must be more than 8 characters", v-model="password" required)
           v-layout(row justify-space-between)
-            v-btn(small flat primary :to="'Login'") Have you an account?
+            small *indicates required field
+            v-btn(info :loading="loading"  @click.prevent="sendRegister" :disabled="loading") Sign up
+          v-alert(error dismissible transition="scale-transition" v-model="alert") {{error}}
+        v-layout(row justify-space-between)
+          v-btn(small flat primary :to="'Login'") Have you an account?
 
 </template>
 
