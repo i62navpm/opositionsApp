@@ -6,12 +6,14 @@ import Vuex from 'vuex'
 import App from './App'
 import router from './router'
 import store from './store'
+import Vuetify from 'vuetify'
 
 sync(store, router)
 
 Vue.config.productionTip = false
 
 Vue.use(Vuex)
+Vue.use(Vuetify)
 
 /* eslint-disable no-new */
 new Vue({
