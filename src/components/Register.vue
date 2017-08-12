@@ -1,13 +1,21 @@
 <template lang="pug">
-  form
-    div
-      label Email
-      input.input(type='email' placeholder='Enter an email' v-model="email")
-    div
-      label Password
-      input.input(type='password' placeholder='Enter a password' v-model="password")
-    div
-      button(@click.prevent="sendRegister") Sign up
+  v-container(fluid fill-height)
+    v-layout(row wrap)
+      v-flex(xs12 md6 offset-md3)
+        v-card
+          v-toolbar.indigo(dark)
+            v-toolbar-title Register
+          v-card-text
+            form(@keyup.enter="sendRegister")
+              v-text-field(type="email" label="Email", v-model="email", required)
+              v-text-field(type="password" label="Password", hint="The length must be more than 8 characters", v-model="password" required)
+              v-layout(row justify-space-between)
+                small *indicates required field
+                v-btn(info :loading="loading"  @click.prevent="sendRegister" :disabled="loading") Sign up
+              v-alert(error dismissible transition="scale-transition" v-model="alert") {{error}}
+            v-layout(row justify-space-between)
+              v-btn(small flat primary :to="'Login'") Have you an account?
+
 </template>
 
 <script>
@@ -19,7 +27,10 @@ export default {
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      loading: false,
+      alert: false,
+      error: ''
     }
   },
   methods: {
@@ -28,8 +39,17 @@ export default {
     }),
     async sendRegister() {
       debug('Sending register form')
-      let userConfirmed = await this.registerUser({email: this.email.trim(), password: this.password.trim()})
-      !userConfirmed && this.$router.push({ name: 'verification' })
+      this.loading = true
+
+      try {
+        let userConfirmed = await this.registerUser({ email: this.email.trim(), password: this.password.trim() })
+        !userConfirmed && this.$router.push({ name: 'verification' })
+      } catch (error) {
+        debug('Error:', error.message)
+        this.error = error.message
+        this.alert = true
+      }
+      this.loading = false
     }
   }
 }
