@@ -37,4 +37,12 @@ export default {
 .fade-leave-to {
   opacity: 0
 }
+
+body {
+  overflow-x: hidden;
+}
+.card--flex-toolbar {
+  margin-top: -64px;
+}
+
 </style>
