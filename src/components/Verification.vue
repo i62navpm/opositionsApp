@@ -1,10 +1,18 @@
 <template lang="pug">
-  form
-    div
-      label Verification code
-      input.input(type='text' placeholder='Enter the verification code' v-model="code")
-    div
-      button(@click.prevent="sendCode") Verificate
+  v-container(fluid fill-height)
+    v-layout(row wrap)
+      v-flex(xs12 md6 offset-md3)
+        v-card
+          v-toolbar.indigo(dark)
+            v-toolbar-title Verificate email
+          v-card-text
+            form(@keyup.enter="sendCode")
+              v-text-field(label="Enter the verification code", v-model="code", required)
+              v-layout(row justify-space-between)
+                small *indicates required field
+                v-btn(info :loading="loading"  @click.prevent="sendCode" :disabled="loading") Verificate code
+              v-alert(error dismissible transition="scale-transition" v-model="alert") {{error}}
+
 </template>
 
 <script>
@@ -15,7 +23,10 @@ export default {
   name: 'verification',
   data() {
     return {
-      code: ''
+      code: '',
+      loading: false,
+      alert: false,
+      error: ''
     }
   },
   methods: {
@@ -24,8 +35,17 @@ export default {
     }),
     async sendCode() {
       debug('Sending verification form')
-      let userVerificated = await this.verificationCode(this.code.trim())
-      userVerificated && this.$router.push({ name: 'login' })
+      this.loading = true
+
+      try {
+        let userVerificated = await this.verificationCode(this.code.trim())
+        userVerificated && this.$router.push({ name: 'login' })
+      } catch (error) {
+        debug('Error:', error.message)
+        this.error = error.message
+        this.alert = true
+      }
+      this.loading = false
     }
   }
 }
