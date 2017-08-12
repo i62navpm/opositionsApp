@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-container(fluid fill-height)
+  v-container(fluid)
     v-layout(row wrap)
       v-flex(xs12 md6 offset-md3)
         v-card

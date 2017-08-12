@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-container(fluid fill-height)
+  v-container(fluid)
     v-layout(row wrap)
       v-flex(xs12 md6 offset-md3)
         v-card
@@ -13,7 +13,7 @@
                 small *indicates required field
                 v-btn(info :loading="loading"  @click.prevent="sendLogin" :disabled="loading") Sign in
               v-alert(error dismissible transition="scale-transition" v-model="alert") {{error}}
-            v-layout(row justify-space-between)
+            v-layout(row-sm column child-flex-sm justify-space-between)
               v-btn(small flat primary :to="'forgotPassword'") Forgot the password?
               v-btn(small flat primary :to="'Register'") You don't have an account yet?
 </template>
