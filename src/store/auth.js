@@ -26,7 +26,6 @@ export default {
         }
         state.congitoSDK.getSession((err, session) => {
           if (err) {
-            commit('SET_USER', null)
             debug('Error:', err)
             reject(err)
             return
@@ -54,7 +53,6 @@ export default {
             reject(err)
             return
           }
-
           debug('User registered correctly')
           commit('SET_USER', result.user.username)
           resolve(result.userConfirmed)
