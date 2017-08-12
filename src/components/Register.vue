@@ -1,7 +1,7 @@
 <template lang="pug">
 v-card.grey.lighten-5(flat)
   v-toolbar.primary.elevation-3(dark, extended)
-    v-toolbar-title Oposition APP
+    v-toolbar-title Opposition APP
   v-layout(row)
     v-flex(xs12 sm10 offset-sm1 md6 offset-md3)
       v-card.card--flex-toolbar
