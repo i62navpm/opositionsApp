@@ -1,7 +1,9 @@
 <template>
   <v-app id="app">
     <main>
-      <router-view></router-view>
+      <transition name="fade" mode="out-in">
+        <router-view></router-view>
+      </transition>
     </main>
   </v-app>
 </template>
@@ -25,5 +27,14 @@ export default {
 </script>
 
 <style>
-  @import '~vuetify/dist/vuetify.min.css';
+@import '~vuetify/dist/vuetify.min.css';
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .2s
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0
+}
 </style>
