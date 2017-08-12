@@ -6,6 +6,7 @@ v-card.grey.lighten-5(flat)
     v-flex(xs12 sm10 offset-sm1 md6 offset-md3)
       v-card.card--flex-toolbar
         v-toolbar.white(card, prominent)
+          v-icon mood
           v-toolbar-title Register
         v-divider
         v-card-text
