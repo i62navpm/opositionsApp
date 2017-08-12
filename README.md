@@ -1,6 +1,6 @@
-# opositionsapp
+# oppositionsapp
 
-> PWA opositions
+> PWA oppositions
 
 ## Build Setup
 

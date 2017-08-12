@@ -1,7 +1,7 @@
 {
-  "name": "opositionsapp",
+  "name": "oppositionsapp",
   "version": "1.0.0",
-  "description": "PWA opositions",
+  "description": "PWA oppositions",
   "author": "Manuel Navarro Perez <manuelnavarro1987@gmail.com>",
   "private": true,
   "scripts": {

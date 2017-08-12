@@ -1,6 +1,6 @@
 {
-  "name": "opositionsapp",
-  "short_name": "oposition",
+  "name": "oppositionsapp",
+  "short_name": "opposition",
   "icons": [
     {
       "src": "/static/img/icons/android-chrome-192x192.png",
