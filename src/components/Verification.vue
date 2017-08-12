@@ -25,7 +25,7 @@ export default {
     async sendCode() {
       debug('Sending verification form')
       let userVerificated = await this.verificationCode(this.code.trim())
-      !userVerificated && this.$router.push({ name: 'login' })
+      userVerificated && this.$router.push({ name: 'login' })
     }
   }
 }

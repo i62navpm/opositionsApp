@@ -4,6 +4,7 @@ const AWS = require('aws-sdk')
 export default class AWSLambdaSDK {
   constructor() {
     debug('Init AWSLambdaSDK')
+    debug('Initialized AWSLambdaSDK')
   }
 
   invoke() {
@@ -20,7 +21,6 @@ export default class AWSLambdaSDK {
     }
 
     lambda.invoke(pullParams, function (error, data) {
-      debugger
       if (error) {
         console.log(error)
       } else {

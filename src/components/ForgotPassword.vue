@@ -40,7 +40,7 @@ export default {
     },
     async sendActivatePassword() {
       debug('Sending confirm password form')
-      await this.confirmPassword({code: this.code.trim(), password: this.password.trim()})
+      await this.confirmPassword({email: this.email.trim(), code: this.code.trim(), password: this.password.trim()})
       this.$router.push({name: 'login'})
     }
   }

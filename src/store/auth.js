@@ -17,6 +17,35 @@ export default {
   },
   actions: {
     INIT_COGNITO: ({ commit }) => commit('SET_COGNITO', new AWSCognitoSDK()),
+    GET_CURRENT_USER: ({ dispatch, state, commit }) => {
+      return new Promise(async (resolve, reject) => {
+        if (!state.user) {
+          debug('No user logged')
+          reject(false)
+          return
+        }
+        state.congitoSDK.getSession((err, session) => {
+          if (err) {
+            commit('SET_USER', null)
+            debug('Error:', err)
+            reject(err)
+            return
+          }
+          debug('User session valid:', session.isValid())
+          state.congitoSDK.setToken(session.getIdToken().jwtToken)
+          state.congitoSDK.refreshCredentials((err) => {
+            if (err) {
+              commit('SET_USER', null)
+              debug('Error:', err)
+              reject(err)
+              return
+            }
+            debug('User session refreshed')
+            resolve(true)
+          })
+        })
+      })
+    },
     REGISTER_USER: ({ commit, state }, { email, password }) => {
       return new Promise((resolve, reject) => {
         state.congitoSDK.registerUser({ email, password }, (err, result) => {
@@ -46,12 +75,13 @@ export default {
         })
       })
     },
-    LOGIN_USER: ({ state }, { email, password }) => {
+    LOGIN_USER: ({ state, commit }, { email, password }) => {
       return new Promise((resolve, reject) => {
-        state.congitoSDK.loginUser({ username: state.user, email, password }, {
+        state.congitoSDK.loginUser({ email, password }, {
           onSuccess: (result) => {
             debug('User logged correctly')
             state.congitoSDK.setToken(result.getIdToken().jwtToken)
+            commit('SET_USER', email)
             resolve(result)
           },
           onFailure: (err) => {
@@ -61,12 +91,23 @@ export default {
         })
       })
     },
-    FORGOT_PASSWORD: ({ state }, email) => {
+    LOGOUT_USER: ({ state, commit }) => {
+      return new Promise((resolve, reject) => {
+        state.congitoSDK.logoutUser(() => {
+          debug('User logout correctly')
+          commit('SET_USER', null)
+          state.congitoSDK.setToken(null)
+          resolve(true)
+        })
+      })
+    },
+    FORGOT_PASSWORD: ({ state, commit, dispatch }, email) => {
       return new Promise((resolve, reject) => {
         state.congitoSDK.forgotPassword(email, {
-          onSuccess: (result) => {
+          onSuccess: async (result) => {
             debug('Password reset correctly')
-            resolve(result)
+            await dispatch('LOGOUT_USER')
+            resolve(true)
           },
           onFailure: (err) => {
             debug('Error:', err)
@@ -75,9 +116,9 @@ export default {
         })
       })
     },
-    CONFIRM_PASSWORD: ({ state }, { code, password }) => {
+    CONFIRM_PASSWORD: ({ state }, { email, code, password }) => {
       return new Promise((resolve, reject) => {
-        state.congitoSDK.confirmPassword({ username: state.user, code, password }, {
+        state.congitoSDK.confirmPassword({ username: email, code, password }, {
           onSuccess: (result) => {
             debug('Password changed correctly')
             resolve(result)

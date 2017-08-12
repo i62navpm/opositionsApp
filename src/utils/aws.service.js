@@ -25,5 +25,9 @@ export default class AWSSDK {
       }
     })
   }
+
+  refreshCredentials(callback) {
+    AWS.config.credentials.refresh(callback)
+  }
 }
 

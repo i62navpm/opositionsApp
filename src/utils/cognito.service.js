@@ -20,6 +20,15 @@ export default class AWSCognitoSDK extends AWSSDK {
     this.userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
   }
 
+  getSession(callback) {
+    this.cognitoUser = this.userPool.getCurrentUser()
+    if (!this.cognitoUser) {
+      callback('Not exist session user')
+      return
+    }
+    this.cognitoUser.getSession(callback)
+  }
+
   registerUser({ email, password }, callback) {
     debug('Registering User', email)
 
@@ -33,7 +42,7 @@ export default class AWSCognitoSDK extends AWSSDK {
     return this.cognitoUser.confirmRegistration(code, true, callback)
   }
 
-  loginUser({ username, email, password }, { onSuccess, onFailure }) {
+  loginUser({ email, password }, { onSuccess, onFailure }) {
     debug('Login User', email)
     var authenticationData = {
       Email: email,
@@ -41,8 +50,18 @@ export default class AWSCognitoSDK extends AWSSDK {
     }
     let authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData)
 
-    this.cognitoUser = this.cognitoUser || this.getCognitoUser(username)
+    this.cognitoUser = this.cognitoUser || this.getCognitoUser(email)
     return this.cognitoUser.authenticateUser(authenticationDetails, { onSuccess, onFailure })
+  }
+
+  logoutUser(callback) {
+    this.cognitoUser = this.userPool.getCurrentUser()
+    if (!this.cognitoUser) {
+      callback()
+      return
+    }
+    this.cognitoUser.signOut()
+    callback()
   }
 
   getCognitoUser(Username) {

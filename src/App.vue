@@ -17,11 +17,13 @@ export default {
   name: 'app',
   methods: {
     ...mapActions({
-      initCognito: 'auth/INIT_COGNITO'
+      initCognito: 'auth/INIT_COGNITO',
+      getCurrentUser: 'auth/GET_CURRENT_USER'
     })
   },
-  created: function () {
+  created: async function () {
     this.initCognito()
+    await this.getCurrentUser()
   }
 }
 </script>
