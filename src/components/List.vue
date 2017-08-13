@@ -3,7 +3,7 @@
     v-card-title
       | English table
       v-spacer
-      v-text-field(append-icon='search', label='Search', single-line, hide-details, v-model='search')
+      v-text-field(append-icon='search', label='Search', single-line, hide-details, v-model='query')
     v-data-table.elevation-1(v-bind:headers='headers', v-bind:items='items' v-bind:pagination.sync='pagination', :total-items='totalItems', :loading='loading')
       template(slot='headerCell', scope='props')
         span(v-tooltip:bottom="{ 'html': props.header.text }")
@@ -15,14 +15,11 @@
 </template>
 
 <script>
-import AWSLambdaMock from '@/utils/lambda.mock'
-
 export default {
   name: 'list',
   data() {
     return {
-      search: '',
-      lazySearch: '',
+      query: '',
       totalItems: 0,
       loading: true,
       pagination: {},
@@ -50,7 +47,7 @@ export default {
       },
       deep: true
     },
-    search: function () {
+    query: function () {
       clearTimeout(this.timeout)
       this.timeout = setTimeout(async () => {
         let { data, total } = await this.getDataFromApi()
@@ -69,7 +66,15 @@ export default {
     getDataFromApi: async function () {
       this.loading = true
       const { sortBy, descending, page, rowsPerPage } = this.pagination
-      let { data, total } = await AWSLambdaMock(this.search, sortBy, descending, page, rowsPerPage)
+
+      let params = {
+        query: this.query,
+        sortBy,
+        descending,
+        page: this.query ? 1 : page,
+        rowsPerPage
+      }
+      let { data, total } = await this.$parent.lambda.invoke(params)
       this.loading = false
 
       return { data, total }

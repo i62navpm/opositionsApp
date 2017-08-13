@@ -7,25 +7,23 @@ export default class AWSLambdaSDK {
     debug('Initialized AWSLambdaSDK')
   }
 
-  invoke() {
+  invoke(payload) {
     let lambda = new AWS.Lambda()
     var pullParams = {
-      FunctionName: 'LambdaTest',
+      FunctionName: 'oppositionFunction',
       InvocationType: 'RequestResponse',
       LogType: 'None',
-      Payload: JSON.stringify({
-        'key3': 'value3',
-        'key2': 'value2',
-        'key1': 'value1'
-      })
+      Payload: JSON.stringify(payload)
     }
 
-    lambda.invoke(pullParams, function (error, data) {
-      if (error) {
-        console.log(error)
-      } else {
-        console.log(JSON.parse(data.Payload))
-      }
+    return new Promise((resolve, reject) => {
+      lambda.invoke(pullParams, function (error, data) {
+        if (error) {
+          reject(error)
+        } else {
+          resolve(JSON.parse(data.Payload))
+        }
+      })
     })
   }
 
