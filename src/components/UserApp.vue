@@ -39,7 +39,7 @@ export default {
       drawer: true,
       items: [
         { title: 'Home', icon: 'dashboard', route: 'hello' },
-        { title: 'About', icon: 'question_answer', route: 'list' }
+        { title: 'English list', icon: 'view_list', route: 'list' }
       ],
       mini: false,
       right: null
