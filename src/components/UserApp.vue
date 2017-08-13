@@ -11,7 +11,7 @@
               v-icon chevron_left
     v-list.pt-0(dense)
       v-divider
-      v-list-tile(v-for='item in items', :key='item.title')
+      v-list-tile(v-for='item in items', :key='item.title' :to="item.route")
         v-list-tile-action
           v-icon {{ item.icon }}
         v-list-tile-content
@@ -38,8 +38,8 @@ export default {
     return {
       drawer: true,
       items: [
-        { title: 'Home', icon: 'dashboard' },
-        { title: 'About', icon: 'question_answer' }
+        { title: 'Home', icon: 'dashboard', route: 'hello' },
+        { title: 'About', icon: 'question_answer', route: 'list' }
       ],
       mini: false,
       right: null
