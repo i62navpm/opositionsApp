@@ -36,17 +36,18 @@ export default {
             return
           }
           debug('User session valid:', session.isValid())
+          resolve(session.isValid())
           state.congitoSDK.setToken(session.getIdToken().jwtToken)
-          state.congitoSDK.refreshCredentials((err) => {
-            if (err) {
-              commit('SET_USER', null)
-              debug('Error:', err)
-              reject(err)
-              return
-            }
-            debug('User session refreshed')
-            resolve(true)
-          })
+          // state.congitoSDK.refreshCredentials((err) => {
+          //   if (err) {
+          //     commit('SET_USER', null)
+          //     debug('Error:', err)
+          //     reject(err)
+          //     return
+          //   }
+          //   debug('User session refreshed')
+          //   resolve(true)
+          // })
         })
       })
     },
