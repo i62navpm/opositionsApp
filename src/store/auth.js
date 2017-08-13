@@ -16,14 +16,19 @@ export default {
     SET_USER: (state, user) => (state.user = user)
   },
   actions: {
-    INIT_COGNITO: ({ commit }) => commit('SET_COGNITO', new AWSCognitoSDK()),
-    GET_CURRENT_USER: ({ dispatch, state, commit }) => {
+    INIT_COGNITO: ({ state, commit }) => {
+      if (state.congitoSDK) return
+      commit('SET_COGNITO', new AWSCognitoSDK())
+    },
+    GET_CURRENT_USER: async ({ dispatch, state, commit }) => {
       return new Promise(async (resolve, reject) => {
+        if (!state.congitoSDK) await dispatch('INIT_COGNITO')
         if (!state.user) {
           debug('No user logged')
           reject(false)
           return
         }
+
         state.congitoSDK.getSession((err, session) => {
           if (err) {
             debug('Error:', err)

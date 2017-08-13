@@ -19,9 +19,8 @@ export default {
       getCurrentUser: 'auth/GET_CURRENT_USER'
     })
   },
-  created: async function () {
+  created: function () {
     this.initCognito()
-    await this.getCurrentUser()
   }
 }
 </script>

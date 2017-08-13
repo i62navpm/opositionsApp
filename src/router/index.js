@@ -6,20 +6,22 @@ import Register from '@/components/Register'
 import Verification from '@/components/Verification'
 import Login from '@/components/Login'
 import ForgotPassword from '@/components/ForgotPassword'
-
+import store from '../store/index'
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   routes: [
     {
       path: '/hello',
       name: 'hello',
-      component: Hello
+      component: Hello,
+      meta: { requiresAuth: true }
     },
     {
       path: '/',
       name: 'main',
       component: Main,
+      redirect: 'login',
       children: [
         {
           path: '/register',
@@ -45,3 +47,18 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    try {
+      let aux = await store.dispatch('auth/GET_CURRENT_USER')
+      aux && next()
+    } catch (error) {
+      next({ name: 'login' })
+    }
+  } else {
+    next()
+  }
+})
+
+export default router

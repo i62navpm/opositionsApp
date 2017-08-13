@@ -4,8 +4,7 @@ v-card.grey.lighten-5(flat)
     v-toolbar-title Opposition APP
   v-layout(row)
     transition(name="fade" mode="out-in")
-      router-view
-          
+      router-view    
 
 </template>
 
