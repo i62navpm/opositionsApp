@@ -23,6 +23,7 @@ export default function AWSLambdaMock(query = '', sortBy = 'posicion', descendin
 
       if (query) {
         var search = new JsSearch.Search('posicion')
+        search.addIndex('posicion')
         search.addIndex('nombre')
         search.addDocuments(collection)
         collection = search.search(query)
