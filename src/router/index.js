@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
 import Main from '@/components/Main'
+import UserApp from '@/components/UserApp'
+import Hello from '@/components/Hello'
 import Register from '@/components/Register'
 import Verification from '@/components/Verification'
 import Login from '@/components/Login'
@@ -12,13 +13,21 @@ Vue.use(Router)
 let router = new Router({
   routes: [
     {
-      path: '/hello',
-      name: 'hello',
-      component: Hello,
-      meta: { requiresAuth: true }
+      path: '/',
+      name: 'userApp',
+      component: UserApp,
+      meta: { requiresAuth: true },
+      redirect: 'hello',
+      children: [
+        {
+          path: '/hello',
+          name: 'hello',
+          component: Hello
+        }
+      ]
     },
     {
-      path: '/',
+      path: '/user',
       name: 'main',
       component: Main,
       redirect: 'login',
