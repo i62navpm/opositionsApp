@@ -19,14 +19,19 @@
   v-toolbar.primary.darken-4(fixed, dark)
     v-toolbar-side-icon(@click.stop='drawer = !drawer')
     v-toolbar-title Oposition App
+    v-spacer
+    v-btn(icon @click.prevent="logout()")
+      v-icon exit_to_app
   main
-    v-container(fluid)
-      transition(name="fade" mode="out-in")
-        router-view    
+    transition(name="fade" mode="out-in")
+      router-view    
 
 </template>
 
 <script>
+import AWSLambdaSDK from '@/utils/lambda.service'
+import { mapActions } from 'vuex'
+
 export default {
   name: 'userApp',
   data() {
@@ -40,10 +45,22 @@ export default {
       right: null
     }
   },
+  methods: {
+    ...mapActions({
+      logoutUser: 'auth/LOGOUT_USER'
+    }),
+    async logout() {
+      await this.logoutUser()
+      this.$router.push({ name: 'login' })
+    }
+  },
   computed: {
     getUsername() {
       return this.$store.state.auth.user
     }
+  },
+  created() {
+    this.lambda = new AWSLambdaSDK()
   }
 }
 </script>
