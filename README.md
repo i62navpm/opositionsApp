@@ -1,6 +1,6 @@
 # oppositionsapp
 
-> PWA oppositions AWS[Cognito - Lambda - S3]
+> PWA oppositions AWS [Cognito - Lambda - S3 - CloudFront]
 
 ## Build Setup
 
