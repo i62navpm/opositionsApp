@@ -15,7 +15,7 @@
           v-alert(error dismissible transition="scale-transition" v-model="alert") {{error}}
         v-layout(row-sm column child-flex-sm justify-space-between)
           v-btn(small flat primary :to="'forgotPassword'") Forgot the password?
-          v-btn(small flat primary :to="'Register'") You don't have an account yet?
+          v-btn(small flat primary :to="'register'") You don't have an account yet?
 
 </template>
 
