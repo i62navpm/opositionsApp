@@ -1,19 +1,63 @@
 <template lang="pug">
-v-card.grey.lighten-5(flat)
-  v-toolbar.primary.elevation-3(dark, extended)
-    v-toolbar-title User APP
-  v-layout(row)
-    transition(name="fade" mode="out-in")
-      router-view    
+.main(toolbar)
+  v-navigation-drawer(absolute, persistent, light, :mini-variant.sync='mini', v-model='drawer', overflow)
+    v-toolbar.transparent(flat)
+      v-list.pa-0
+        v-list-tile(tag='div')
+          v-list-tile-content.content-username
+            v-list-tile-title.username {{getUsername}}
+          v-list-tile-action
+            v-btn(icon, @click.native.stop='mini = !mini')
+              v-icon chevron_left
+    v-list.pt-0(dense)
+      v-divider
+      v-list-tile(v-for='item in items', :key='item.title')
+        v-list-tile-action
+          v-icon {{ item.icon }}
+        v-list-tile-content
+          v-list-tile-title {{ item.title }}
+  v-toolbar.primary.darken-4(fixed, dark)
+    v-toolbar-side-icon(@click.stop='drawer = !drawer')
+    v-toolbar-title Oposition App
+  main
+    v-container(fluid)
+      transition(name="fade" mode="out-in")
+        router-view    
 
 </template>
 
 <script>
 export default {
-  name: 'userApp'
+  name: 'userApp',
+  data() {
+    return {
+      drawer: true,
+      items: [
+        { title: 'Home', icon: 'dashboard' },
+        { title: 'About', icon: 'question_answer' }
+      ],
+      mini: false,
+      right: null
+    }
+  },
+  computed: {
+    getUsername() {
+      return this.$store.state.auth.user
+    }
+  }
 }
 </script>
 
 <style scoped lang="scss">
+.main {
+  .content-username {
+    width: 0;
 
+    .username {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
 </style>
