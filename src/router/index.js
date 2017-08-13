@@ -3,11 +3,13 @@ import Router from 'vue-router'
 import Main from '@/components/Main'
 import UserApp from '@/components/UserApp'
 import Hello from '@/components/Hello'
+import List from '@/components/List'
 import Register from '@/components/Register'
 import Verification from '@/components/Verification'
 import Login from '@/components/Login'
 import ForgotPassword from '@/components/ForgotPassword'
 import store from '../store/index'
+
 Vue.use(Router)
 
 let router = new Router({
@@ -19,6 +21,11 @@ let router = new Router({
       meta: { requiresAuth: true },
       redirect: 'hello',
       children: [
+        {
+          path: '/list',
+          name: 'list',
+          component: List
+        },
         {
           path: '/hello',
           name: 'hello',
